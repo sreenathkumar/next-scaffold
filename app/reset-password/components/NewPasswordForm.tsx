@@ -54,7 +54,7 @@ function NewPasswordForm({ setStep }: Props) {
                         />
                     </FormField>
                 </div>
-                <SubmitBtn text="Send Verification Email" loadingText="Registering..." />
+                <SubmitBtn text="Reset Password" loadingText="Sending..." />
             </form>
         </>
     )

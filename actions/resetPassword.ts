@@ -6,6 +6,7 @@ import OTP from "@/models/OTPModel";
 import User from "@/models/userModel";
 import { z } from "zod";
 import { sendOTPMail } from "./sendEmail";
+import { saltAndHashPassword } from "@/lib/password";
 
 // Allowed email domains
 const allowedEmailDomains = ['gmail.com', 'yahoo.com', 'outlook.com'];
@@ -166,7 +167,7 @@ export async function verifyOTP(prevState: unknown, formData: FormData) {
 
 // function to reset the password
 export async function resetPassword(prevState: unknown, formData: FormData) {
-    const { password, confirmPassword } = Object.fromEntries(formData);
+    const { email, password, confirmPassword } = Object.fromEntries(formData);
     const validatedFields = passwordSchema.safeParse({ password, confirmPassword });
 
     if (!validatedFields.success) {
@@ -174,6 +175,46 @@ export async function resetPassword(prevState: unknown, formData: FormData) {
             status: 'error',
             message: 'Invalid password',
             errors: validatedFields.error.flatten().fieldErrors
+        }
+    }
+
+    //connect to the database
+    await dbConnect();
+
+
+    try {
+        //find the user
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return {
+                status: 'error',
+                message: "There is no user with this email",
+                errors: {
+                    password: ["There is no user with this email"],
+                    confirmPassword: ["There is no user with this email"]
+                }
+            }
+        }
+
+        //hash the password
+        const hashedPassword = await saltAndHashPassword(password as string);
+
+        //update the password
+        user.password = hashedPassword;
+
+        //save the user
+        await user.save();
+
+        return {
+            status: 'success',
+            message: 'Password reset successfully'
+        }
+    } catch (error) {
+        console.log('error in resetting password: ', error);
+        return {
+            status: 'error',
+            message: 'Unexpected error in resetting password'
         }
     }
 
