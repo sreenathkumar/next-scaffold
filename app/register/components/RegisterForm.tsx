@@ -5,7 +5,7 @@ import PasswordField from "@/app/login/components/PasswordField"
 import { Alert, AlertDescription } from "@/components/shadcn/alert"
 import { Input } from "@/components/shadcn/input"
 import FormField from "@/components/ui/CustomField"
-import { useFormState } from "react-dom"
+import { useActionState } from "react"
 import SubmitBtn from "./SubmitBtn"
 
 const initailState = {
@@ -14,10 +14,9 @@ const initailState = {
     errors: {},
 }
 
-console.log(`${process.env.NEXT_PUBLIC_API_URL || 'localhost:3000'}`)
 
 function RegisterForm() {
-    const [state, registerAction] = useFormState(register, initailState);
+    const [state, registerAction] = useActionState(register, initailState);
 
     return (
         <>
