@@ -84,7 +84,7 @@ function LoginForm() {
                     </Label>
                 </div>
                 <div className="text-sm">
-                    <Link href="/forgot-password" className="text-gray-600 hover:underline">
+                    <Link href="/reset-password" className="text-gray-600 hover:underline">
                         Forgot your password?
                     </Link>
                 </div>
