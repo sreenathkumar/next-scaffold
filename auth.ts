@@ -6,9 +6,11 @@ import Credentials from "next-auth/providers/credentials"
 import FacebookProvider from 'next-auth/providers/facebook'
 import GoogleProvider from 'next-auth/providers/google'
 import { verifyUser } from "./actions/verifyPassword"
+import { authConfig } from "./auth.config"
 
 
 export const { handlers: { GET, POST }, signIn, signOut, auth } = NextAuth({
+    ...authConfig,
     adapter: MongoDBAdapter(client),
     providers: [
         GoogleProvider,
@@ -43,14 +45,4 @@ export const { handlers: { GET, POST }, signIn, signOut, auth } = NextAuth({
             },
         }),
     ],
-
-    session: {
-        strategy: "jwt",
-        maxAge: 24 * 60 * 60,
-    },
-
-    pages: {
-        signOut: '/signup',
-        signIn: '/signin',
-    }
 })
