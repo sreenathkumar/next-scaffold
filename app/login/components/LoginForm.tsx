@@ -2,9 +2,7 @@
 
 import SubmitBtn from '@/app/register/components/SubmitBtn'
 import { Alert, AlertDescription } from "@/components/shadcn/alert"
-import { Checkbox } from "@/components/shadcn/checkbox"
 import { Input } from "@/components/shadcn/input"
-import { Label } from "@/components/shadcn/label"
 import FormField from '@/components/ui/CustomField'
 import { signIn } from 'next-auth/react'
 import Link from 'next/link'
@@ -73,22 +71,9 @@ function LoginForm() {
                 </FormField>
             </div>
 
-            <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                    <Checkbox
-                        id="remember-me"
-                        name="remember"
-                    />
-                    <Label htmlFor="remember-me" className="ml-2 text-sm">
-                        Remember me
-                    </Label>
-                </div>
-                <div className="text-sm">
-                    <Link href="/reset-password" className="text-gray-600 hover:underline">
-                        Forgot your password?
-                    </Link>
-                </div>
-            </div>
+            <Link href="/reset-password" className="text-gray-600 text-sm hover:underline">
+                Forgot your password?
+            </Link>
 
             <SubmitBtn text='Sign in' loadingText='Singing in...' />
 
